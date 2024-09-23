@@ -28,10 +28,10 @@ jobs:
           java-version: '17'
 
       - name: Install dependencies
-        run: ./gradlew build
+        run: ./gradlew --no-daemon build
 
       - name: Generate Dokka documentation
-        run: ./gradlew dokkaHtml
+        run: ./gradlew --no-daemon dokkaHtml
 
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
