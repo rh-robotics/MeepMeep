@@ -18,21 +18,58 @@
     - [Default Bot Constraints](#default-bot-constraints)
 
 ## Installation (Android Studio)
-TODO!
+
+1. In Android Studio, click on the "FtcRobotController" Module, then right click on the
+   FtcRobotController folder and click `New > Module`
+   <img src="/images/readme/installationStep1.png" width="751" height="287"/>
+2. On the left part of this window, select "Java or Kotlin Library"
+   <img src="/images/readme/installationStep2.png" width="544" height="382"/>
+
+3. From here, remove the `:ftcrobotcontroller:lib` in the "Library Name" section, and rename it
+   to `MeepMeepTesting`. You may use whatever name you wish but the rest of the instructions will
+   assume you have chosen the name `MeepMeepTesting`. Ensure that you also change the "class name"
+   section to match.
+
+4. Hit "Finish" at the bottom right of the Module Create window.
+
+5. Open up the `build.gradle` file for the MeepMeepTesting module (or whatever you chose to name it
+   prior). In this file, change all instances `JavaVersion.VERSION_1_7` to `JavaVersion.VERSION_1_8`
+   <img src="/images/readme/installationStep5.png" width="566" height="274"/>
+
+6. At the bottom of the file add the following gradle snippet:
+
+    ```
+    repositories {
+        maven { url = 'https://jitpack.io' }
+        maven { url = 'https://maven.brott.dev/' }
+    }
+    
+    dependencies {
+        implementation 'com.github.NoahBres:MeepMeep:2.0.3'
+    }
+    ```
+
+7. When android studio prompts you to make a gradle sync, click "Sync Now".
+   <img src="/images/readme/installationStep7.png" width="644" height="20"/>
+
+8. Create a class for your MeepMeepTesting java module if it does not yet exist. Paste the following
+   sample in it. Feel free to change this later.
 
 ## Full Documentation (Kotlin Docs)
+
 TODO!
 
 ## Extra Tips
 
 ### Custom Background
 
-Before the `meepmeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)`, add the following
+Before the `meepmeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)`, add the
+following
 lines of code and update the setBackground() command:
 
 ```java
   Image img = null;
-  try{ img = ImageIO.read(new File("<PATH TO IMAGE>")); }
+  try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
   catch(IOException e) {}
   
   meepMeep.setBackground(img)
