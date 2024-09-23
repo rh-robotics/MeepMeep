@@ -1,7 +1,9 @@
 name: Build MeepMeep
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
   workflow_dispatch:
 
 permissions:
@@ -26,3 +28,22 @@ jobs:
 
       - name: Test MeepMeep
         run: ./gradlew --no-daemon test
+
+      - name: Report status
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { context, github } = require('@actions/github');
+            const { owner, repo } = context.repo;
+            const pull_request = context.payload.pull_request;
+
+            if (pull_request) {
+              await github.repos.createCommitStatus({
+                owner,
+                repo,
+                sha: pull_request.head.sha,
+                state: 'success',
+                context: 'Build MeepMeep',
+                description: 'The build succeeded!',
+              });
+            }
