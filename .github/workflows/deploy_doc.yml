@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: docs/build/html/
+          path: build/dokka/html
 
   deploy:
     if: ${{ github.event_name != 'pull_request' }}
