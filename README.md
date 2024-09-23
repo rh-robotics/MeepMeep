@@ -4,11 +4,6 @@
 ![Instagram Badge](https://img.shields.io/badge/%40rh--iron--lions-yellow?style=for-the-badge&logo=instagram&logoColor=%23edbe28&label=Instagram&labelColor=%23676767&color=%23edbe28&link=https%3A%2F%2Finstagram.com%2Frh-iron-lions)
 ![Email Badge](https://img.shields.io/badge/ironlions19922%40gmail.com-yellow?style=for-the-badge&logo=gmail&logoColor=%23edbe28&label=Email&labelColor=%23676767&color=%23edbe28&link=mailto%3Aironlions19922%40gmail.com)
 
-**Contact Us At:**
-
-- @rh-iron-ions On Instagram
-- ironlions19922@gmail.com
-
 ---
 
 ## Table of Contents
