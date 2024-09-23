@@ -33,12 +33,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const github = require('@actions/github');
-            const { owner, repo } = github.context.repo;
-            const pull_request = github.context.payload.pull_request;
+            const { context, getOctokit } = require('@actions/github');
+            const { owner, repo } = context.repo;
+            const pull_request = context.payload.pull_request;
 
             if (pull_request) {
-              await github.repos.createCommitStatus({
+              const octokit = getOctokit(process.env.GITHUB_TOKEN);
+              await octokit.repos.createCommitStatus({
                 owner,
                 repo,
                 sha: pull_request.head.sha,
