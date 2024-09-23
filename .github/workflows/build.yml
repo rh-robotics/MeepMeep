@@ -33,9 +33,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { context, github } = require('@actions/github');
-            const { owner, repo } = context.repo;
-            const pull_request = context.payload.pull_request;
+            const github = require('@actions/github');
+            const { owner, repo } = github.context.repo;
+            const pull_request = github.context.payload.pull_request;
 
             if (pull_request) {
               await github.repos.createCommitStatus({
