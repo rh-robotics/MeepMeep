@@ -32,13 +32,13 @@ lines of code and update the setBackground() command:
 
 ```java
 Image img = null;
-try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
+try { img = ImageIO.read(new File("<PATH TO IMAGE>")); }
 catch(IOException e) {}
 
 meepMeep.setBackground(img)
 ```
 
-where <PATH TO IMAGE> is your path to the image you want to use for example:
+where `<PATH TO IMAGE>` is your path to the image you want to use for example:
 
 - On MacOs: `/Users/<username>/Documents/field.png`
 - On Windows: `C:\Users\<username>\Documents\field.png`
