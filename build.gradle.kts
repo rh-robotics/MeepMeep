@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
 }
 
-val meepMeepVersion = "1.0-SNAPSHOT"
+val meepMeepVersion = "1.0.0"
 val pomUrl = "https://github.com/rh-robotics/MeepMeep"
 val pomScmUrl = "https://github.com/rh-robotics/MeepMeep"
 val pomIssueUrl = "https://github.com/rh-robotics/MeepMeep/issues"
