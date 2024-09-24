@@ -8,53 +8,17 @@
 
 ## Table of Contents
 
-- [Installation (Android Studio)](#installation-android-studio)
+- [Installation](#installation)
 - [Full Documentation (Kotlin Docs)](#full-documentation-kotlin-docs)
 - [Misc Info](#extra-tips)
     - [Poor Performance Fix](#poor-performance-fix)
     - [Default Bot Constraints](#default-bot-constraints)
 
-## Installation (Android Studio)
-
-1. In Android Studio, click on the "FtcRobotController" Module, then right click on the
-   FtcRobotController folder and click `New > Module`
-   <img src="/images/readme/installationStep1.png" width="751" height="287"/>
-2. On the left part of this window, select "Java or Kotlin Library"
-   <img src="/images/readme/installationStep2.png" width="544" height="382"/>
-
-3. From here, remove the `:ftcrobotcontroller:lib` in the "Library Name" section, and rename it
-   to `MeepMeepTesting`. You may use whatever name you wish but the rest of the instructions will
-   assume you have chosen the name `MeepMeepTesting`. Ensure that you also change the "class name"
-   section to match.
-
-4. Hit "Finish" at the bottom right of the Module Create window.
-
-5. Open up the `build.gradle` file for the MeepMeepTesting module (or whatever you chose to name it
-   prior). In this file, change all instances `JavaVersion.VERSION_1_7` to `JavaVersion.VERSION_1_8`
-   <img src="/images/readme/installationStep5.png" width="566" height="274"/>
-
-6. At the bottom of the file add the following gradle snippet:
-
-    ```
-    repositories {
-        maven { url = 'https://jitpack.io' }
-        maven { url = 'https://maven.brott.dev/' }
-    }
-    
-    dependencies {
-        implementation 'com.github.NoahBres:MeepMeep:2.0.3'
-    }
-    ```
-
-7. When android studio prompts you to make a gradle sync, click "Sync Now".
-   <img src="/images/readme/installationStep7.png" width="644" height="20"/>
-
-8. Create a class for your MeepMeepTesting java module if it does not yet exist. Paste the following
-   sample in it. Feel free to change this later.
+## Installation
+See [INSTALL.md](https://github.com/rh-robotics/MeepMeep/blob/master/INSTALL.md)
 
 ## Full Documentation (Kotlin Docs)
-
-TODO!
+See the full Kotlin documentation on [GitHub Sites](https://rh-robotics.github.io/MeepMeep)
 
 ## Extra Tips
 
@@ -65,11 +29,11 @@ following
 lines of code and update the setBackground() command:
 
 ```java
-  Image img = null;
-  try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
-  catch(IOException e) {}
-  
-  meepMeep.setBackground(img)
+Image img = null;
+try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
+catch(IOException e) {}
+
+meepMeep.setBackground(img)
 ```
 
 where <PATH TO IMAGE> is your path to the image you want to use for example:
@@ -83,15 +47,15 @@ MeepMeep is hosted on JitPack. This allows the user to pull dependencies from an
 the dependency version in build.gradle to do so.
 
 - Pull from a specific tagged version (same as install instructions)
-    - `implementation 'com.github.NoahBres:MeepMeep:2.0.3'`
-    - `2.0.3` can be replaced with whatever version specified on
+    - `implementation 'com.github.rh-robotics:MeepMeep:1.0.0'`
+    - `1.0.0` can be replaced with whatever version specified on
       the [GitHub releases page](https://github.com/NoahBres/MeepMeep/releases)
 - Pull from whatever the latest commit on the master branch is
-    - `implementation 'com.github.NoahBres:MeepMeep:-SNAPSHOT'`
+    - `implementation 'com.github.rh-robotics:MeepMeep:-SNAPSHOT'`
 - Pull from a specific commit
-    - `implementation 'com.github.NoahBres:MeepMeep:<commit version ID>'`
-    - `<commit ID>` is replaced with ID of commit. For example "79d123f0c1"
-    - This is not the full commit hash. It is the first 10 characters of the comit hash
+    - `implementation 'com.github.rh-robotics:MeepMeep:<commit version ID>'`
+    - `<commit ID>` is replaced with the ID of the commit. For example "79d123f0c1"
+    - This is not the full commit hash, rather, the first 10 characters of the commit hash
 
 ### Poor Performance Fix
 
