@@ -147,7 +147,7 @@ open class DefaultBotBuilder(private val meepMeep: MeepMeep) {
      * @return A [RoadRunnerBotEntity] instance that follows the given
      *    trajectory sequence.
      */
-    private fun followTrajectorySequence(trajectorySequence: TrajectorySequence): RoadRunnerBotEntity {
+    fun followTrajectorySequence(trajectorySequence: TrajectorySequence): RoadRunnerBotEntity {
         val bot = this.build()
         bot.followTrajectorySequence(trajectorySequence)
 
