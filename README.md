@@ -8,18 +8,17 @@
 
 ## Table of Contents
 
-- [Installation (Android Studio)](#installation-android-studio)
+- [Installation](#installation)
 - [Full Documentation (Kotlin Docs)](#full-documentation-kotlin-docs)
 - [Misc Info](#extra-tips)
     - [Poor Performance Fix](#poor-performance-fix)
     - [Default Bot Constraints](#default-bot-constraints)
 
-## Installation (Android Studio)
-
+## Installation
+See [INSTALL.md](https://github.com/rh-robotics/MeepMeep/blob/master/INSTALL.md)
 
 ## Full Documentation (Kotlin Docs)
-
-TODO!
+See the full Kotlin documentation on [GitHub Sites](https://rh-robotics.github.io/MeepMeep)
 
 ## Extra Tips
 
@@ -30,11 +29,11 @@ following
 lines of code and update the setBackground() command:
 
 ```java
-  Image img = null;
-  try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
-  catch(IOException e) {}
-  
-  meepMeep.setBackground(img)
+Image img = null;
+try{ img =ImageIO.read(new File("<PATH TO IMAGE>")); }
+catch(IOException e) {}
+
+meepMeep.setBackground(img)
 ```
 
 where <PATH TO IMAGE> is your path to the image you want to use for example:
