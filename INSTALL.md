@@ -1,4 +1,5 @@
 # Step-by-Step Installation Guide (Android Studio)
+
 1.  In Android Studio, click on the "FtcRobotController" Module, then right-click on the FtcRobotController folder and click `New > Module`
     <img width="903" alt="Step-1" src="https://github.com/user-attachments/assets/8c53e58a-d7e7-464c-bf6a-519321db22fd">
 
@@ -70,6 +71,7 @@ public class MeepMeepTesting {
 ```
 
 9. Create a run configuration for Android Studio.
+
    1. First, click on the drop down menu on the top bar of Android Studio, where it says "TeamCode" with a little Android logo next to it
       <img width="416" alt="Step-9 1" src="https://github.com/user-attachments/assets/d8b8b370-0b3c-466d-b727-821e36b4636e">
 
@@ -95,4 +97,5 @@ public class MeepMeepTesting {
       <img width="1073" alt="Step-9 8" src="https://github.com/user-attachments/assets/8ec43003-c50b-4dda-84a3-c6aa66d23182">
 
    9. It will now automatically switch to that Run/Debug Configuration profile
+
 10. If at any point you would like to build code onto your Control Hub or Phone, then click the Run/Debug configuration profile at the top to open the dropdown menu and select TeamCode. Perform the same steps to switch back to "MeepMeep"

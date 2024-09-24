@@ -11,13 +11,15 @@
 - [Installation](#installation)
 - [Full Documentation (Kotlin Docs)](#full-documentation-kotlin-docs)
 - [Misc Info](#extra-tips)
-    - [Poor Performance Fix](#poor-performance-fix)
-    - [Default Bot Constraints](#default-bot-constraints)
+  - [Poor Performance Fix](#poor-performance-fix)
+  - [Default Bot Constraints](#default-bot-constraints)
 
 ## Installation
+
 See [INSTALL.md](https://github.com/rh-robotics/MeepMeep/blob/master/INSTALL.md)
 
 ## Full Documentation (Kotlin Docs)
+
 See the full Kotlin documentation on [GitHub Sites](https://rh-robotics.github.io/MeepMeep)
 
 ## Extra Tips
@@ -47,15 +49,15 @@ MeepMeep is hosted on JitPack. This allows the user to pull dependencies from an
 the dependency version in build.gradle to do so.
 
 - Pull from a specific tagged version (same as install instructions)
-    - `implementation 'com.github.rh-robotics:MeepMeep:1.0.0'`
-    - `1.0.0` can be replaced with whatever version specified on
-      the [GitHub releases page](https://github.com/NoahBres/MeepMeep/releases)
+  - `implementation 'com.github.rh-robotics:MeepMeep:1.0.0'`
+  - `1.0.0` can be replaced with whatever version specified on
+    the [GitHub releases page](https://github.com/NoahBres/MeepMeep/releases)
 - Pull from whatever the latest commit on the master branch is
-    - `implementation 'com.github.rh-robotics:MeepMeep:-SNAPSHOT'`
+  - `implementation 'com.github.rh-robotics:MeepMeep:-SNAPSHOT'`
 - Pull from a specific commit
-    - `implementation 'com.github.rh-robotics:MeepMeep:<commit version ID>'`
-    - `<commit ID>` is replaced with the ID of the commit. For example "79d123f0c1"
-    - This is not the full commit hash, rather, the first 10 characters of the commit hash
+  - `implementation 'com.github.rh-robotics:MeepMeep:<commit version ID>'`
+  - `<commit ID>` is replaced with the ID of the commit. For example "79d123f0c1"
+  - This is not the full commit hash, rather, the first 10 characters of the commit hash
 
 ### Poor Performance Fix
 
