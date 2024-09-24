@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.rh-robotics:MeepMeep:-SNAPSHOT'
+    implementation 'com.github.rh-robotics:MeepMeep:v1.0.0'
 }
 ```
 
