@@ -47,15 +47,15 @@ MeepMeep is hosted on JitPack. This allows the user to pull dependencies from an
 the dependency version in build.gradle to do so.
 
 - Pull from a specific tagged version (same as install instructions)
-    - `implementation 'com.github.NoahBres:MeepMeep:2.0.3'`
-    - `2.0.3` can be replaced with whatever version specified on
+    - `implementation 'com.github.rh-robotics:MeepMeep:1.0.0'`
+    - `1.0.0` can be replaced with whatever version specified on
       the [GitHub releases page](https://github.com/NoahBres/MeepMeep/releases)
 - Pull from whatever the latest commit on the master branch is
-    - `implementation 'com.github.NoahBres:MeepMeep:-SNAPSHOT'`
+    - `implementation 'com.github.rh-robotics:MeepMeep:-SNAPSHOT'`
 - Pull from a specific commit
-    - `implementation 'com.github.NoahBres:MeepMeep:<commit version ID>'`
-    - `<commit ID>` is replaced with ID of commit. For example "79d123f0c1"
-    - This is not the full commit hash. It is the first 10 characters of the comit hash
+    - `implementation 'com.github.rh-robotics:MeepMeep:<commit version ID>'`
+    - `<commit ID>` is replaced with the ID of the commit. For example "79d123f0c1"
+    - This is not the full commit hash, rather, the first 10 characters of the commit hash
 
 ### Poor Performance Fix
 
