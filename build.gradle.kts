@@ -5,8 +5,8 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "2.0.20"
-    id("org.jetbrains.dokka") version "1.5.0"
+    kotlin("jvm") version "1.8.10"
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 
 val meepMeepVersion = "1.0-SNAPSHOT"
