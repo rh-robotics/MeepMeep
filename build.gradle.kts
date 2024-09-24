@@ -1,30 +1,23 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    // Apply the java-library plugin for API and implementation separation.
     java
     `java-library`
     `maven-publish`
-    kotlin("jvm") version "1.6.20-RC"
+    kotlin("jvm") version "2.0.20"
     id("org.jetbrains.dokka") version "1.5.0"
 }
 
 val meepMeepVersion = "1.0-SNAPSHOT"
-
-group = "org.rowlandhall.meepmeep"
-version = "1.0-SNAPSHOT"
-
-val pomUrl = "https://github.com/NoahBres/MeepMeep"
-val pomScmUrl = "https://github.com/NoahBres/MeepMeep"
-val pomIssueUrl = "https://github.com/NoahBres/MeepMeep/issues"
-val pomDesc = "https://github.com/NoahBres/MeepMeep"
-
-val githubRepo = "NoahBres/MeepMeep"
+val pomUrl = "https://github.com/rh-robotics/MeepMeep"
+val pomScmUrl = "https://github.com/rh-robotics/MeepMeep"
+val pomIssueUrl = "https://github.com/rh-robotics/MeepMeep/issues"
+val pomDesc = "https://github.com/rh-robotics/MeepMeep"
+val githubRepo = "rh-robotics/MeepMeep"
 val githubReadme = "README.md"
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here
     maven(url = "https://maven.brott.dev/")
     mavenCentral()
 }
@@ -35,15 +28,9 @@ java {
 }
 
 dependencies {
-    // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-
-    // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-
     api("com.acmerobotics.roadrunner:core:0.5.6")
 }
 
@@ -51,7 +38,6 @@ sourceSets["main"].java {
     srcDir("src/main/kotlin")
 }
 
-// Create sources Jar from main kotlin sources
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
     from(sourceSets.getByName("main").allSource)
@@ -81,16 +67,17 @@ publishing {
 
     repositories {
         maven {
-            url = uri("$buildDir/repository")
+            url = uri("${layout.buildDirectory}/repository")
         }
     }
 }
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+compileKotlin.compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_17)
 }
+
 val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+compileTestKotlin.compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_17)
 }

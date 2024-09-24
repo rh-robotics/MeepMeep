@@ -28,3 +28,4 @@ jobs:
 
       - name: Test MeepMeep
         run: ./gradlew --no-daemon test
+
