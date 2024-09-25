@@ -76,6 +76,7 @@ public class MeepMeepTesting {
       <img width="416" alt="Step-9 1" src="https://github.com/user-attachments/assets/d8b8b370-0b3c-466d-b727-821e36b4636e">
 
    2. Click `Edit Configurations`
+
       <img width="373" alt="Step-9 2" src="https://github.com/user-attachments/assets/51f3a279-3bd6-4060-bfa7-4bc9d1313a10">
 
    3. Click on the "+" symbol in the top left of the window
