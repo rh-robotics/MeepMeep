@@ -27,13 +27,7 @@ import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
 import javax.imageio.ImageIO
-import javax.swing.BorderFactory
-import javax.swing.Box
-import javax.swing.BoxLayout
-import javax.swing.JButton
-import javax.swing.JPanel
 import javax.swing.UIManager
-import javax.swing.border.EtchedBorder
 
 /**
  * The [MeepMeep] class is the main entry point for the Meep Meep
@@ -105,18 +99,6 @@ class MeepMeep @JvmOverloads constructor(
 
     /** Manages the z-index of entities for rendering order. */
     private val zIndexManager = ZIndexManager()
-
-    /** Panel containing the middle buttons. */
-    private var middleButtonPanel = JPanel()
-
-    /** Button for standard cursor mode. */
-    private val standardCursorButton = JButton("test")
-
-    /** Button for path selection mode. */
-    private val pathSelectionButton = JButton("test 2")
-
-    /** List of buttons in the middle panel. */
-    private val middleButtonList = mutableListOf(standardCursorButton, pathSelectionButton)
 
     /** The x-coordinate for displaying mouse coordinates. */
     private var mouseCoordinateDisplayX = 10
@@ -202,27 +184,8 @@ class MeepMeep @JvmOverloads constructor(
             this, colorManager.theme, 30.0, 30.0, Vector2d(-54.0, 54.0)
         )
 
-        // Set alignment and background color for each button in the middle button list
-        middleButtonList.forEach {
-            it.alignmentX = 0.5f
-            it.background = colorManager.theme.uiMainBG
-        }
-
-        // Set background color and border for the middle button panel
-        middleButtonPanel.background = colorManager.theme.uiMainBG
-        middleButtonPanel.border = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)
-
-        // Set layout for the middle button panel
-        middleButtonPanel.layout = BoxLayout(middleButtonPanel, BoxLayout.Y_AXIS)
-
-        // Add vertical glue and buttons to the middle button panel
-        middleButtonPanel.add(Box.createVerticalGlue())
-        middleButtonPanel.add(standardCursorButton)
-        middleButtonPanel.add(pathSelectionButton)
-        middleButtonPanel.add(Box.createVerticalGlue())
-
         // Add the progress slider panel to the canvas panel
-        windowFrame.canvasPanel.add(progressSliderMasterPanel) //        windowFrame.contentPane.add(middleButtonPanel)
+        windowFrame.canvasPanel.add(progressSliderMasterPanel)
 
         // Pack the window frame to fit the preferred sizes of its components
         windowFrame.pack()
@@ -253,10 +216,8 @@ class MeepMeep @JvmOverloads constructor(
              *
              * @param e The KeyEvent that triggered this method.
              */
-            override fun keyPressed(e: KeyEvent) {
-                // Check if the 'C' or 'COPY' (Often `Ctrl/CMD + C`) key is pressed
-                if (e.keyCode == KeyEvent.VK_C || e.keyCode == KeyEvent.VK_COPY) {
-                    // Convert mouse coordinates from screen to field coordinates
+            override fun keyPressed(e: KeyEvent) { // Check if the 'C' or 'COPY' (Often `Ctrl/CMD + C`) key is pressed
+                if (e.keyCode == KeyEvent.VK_C || e.keyCode == KeyEvent.VK_COPY) { // Convert mouse coordinates from screen to field coordinates
                     val mouseToFieldCoords = FieldUtil.screenCoordsToFieldCoords(
                         Vector2d(
                             canvasMouseX.toDouble(), canvasMouseY.toDouble()
@@ -326,8 +287,7 @@ class MeepMeep @JvmOverloads constructor(
 
         // Render the background image if it exists
         bg?.let {
-            if (bgAlpha < 1.0f) {
-                // Apply alpha transparency to the background image
+            if (bgAlpha < 1.0f) { // Apply alpha transparency to the background image
                 val resetComposite = g.composite
                 val alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, bgAlpha)
 
@@ -479,8 +439,9 @@ class MeepMeep @JvmOverloads constructor(
         // Get the path and dark mode boolean from the background map
         val (path, isDarkMode) = backgroundMap[background]!!
         colorManager.isDarkMode = isDarkMode
-        bg = ImageIO.read(classLoader.getResourceAsStream(path))
-            .getScaledInstance(windowX, windowY, Image.SCALE_SMOOTH)
+        bg =
+                ImageIO.read(classLoader.getResourceAsStream(path))
+                    .getScaledInstance(windowX, windowY, Image.SCALE_SMOOTH)
 
         // Refresh the theme for all entities
         refreshTheme()
@@ -516,7 +477,9 @@ class MeepMeep @JvmOverloads constructor(
      * @param x The x-coordinate for displaying the mouse coordinates.
      * @param y The y-coordinate for displaying the mouse coordinates.
      */
-    fun setMouseCoordinateDisplayPosition(x: Int, y: Int) {
+    fun setMouseCoordinateDisplayPosition(
+        x: Int, y: Int
+    ) {
         // Update the x-coordinate for the mouse coordinate display
         mouseCoordinateDisplayX = x
 
@@ -553,7 +516,9 @@ class MeepMeep @JvmOverloads constructor(
      * @see [refreshTheme]
      */
     @JvmOverloads
-    fun setTheme(schemeLight: ColorScheme, schemeDark: ColorScheme = schemeLight): MeepMeep {
+    fun setTheme(
+        schemeLight: ColorScheme, schemeDark: ColorScheme = schemeLight
+    ): MeepMeep {
         // Set the light and dark themes in the ColorManager
         colorManager.setTheme(schemeLight, schemeDark)
 
@@ -584,14 +549,6 @@ class MeepMeep @JvmOverloads constructor(
         // Update the background color of the main content pane and canvas panel
         windowFrame.contentPane.background = colorManager.theme.uiMainBG
         windowFrame.canvasPanel.background = colorManager.theme.uiMainBG
-
-        // Road Runner Refresh: Update the background color of the middle button panel
-        middleButtonPanel.background = colorManager.theme.uiMainBG
-
-        // Update the background color of each button in the middle button list
-        middleButtonList.forEach {
-            it.background = colorManager.theme.uiMainBG
-        }
     }
 
     /**
