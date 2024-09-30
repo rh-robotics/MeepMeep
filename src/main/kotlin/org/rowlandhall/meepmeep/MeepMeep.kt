@@ -131,7 +131,8 @@ class MeepMeep @JvmOverloads constructor(
      * @see [TrajectoryProgressSliderMaster]
      * @see [FieldUtil.CANVAS_WIDTH]
      */
-    private val progressSliderMasterPanel: TrajectoryProgressSliderMaster by lazy { // Create a new instance of TrajectoryProgressSliderMaster
+    private val progressSliderMasterPanel: TrajectoryProgressSliderMaster by lazy {
+        // Create a new instance of TrajectoryProgressSliderMaster
         TrajectoryProgressSliderMaster(
             this, FieldUtil.CANVAS_WIDTH.toInt(), 20
         )
@@ -141,7 +142,8 @@ class MeepMeep @JvmOverloads constructor(
     // Returns true if entity list needs to be sorted
     private var entityListDirty = false
 
-    init { // Create class loader to load resources
+    init {
+        // Create class loader to load resources
         val classLoader = Thread.currentThread().contextClassLoader
 
         // Load Roboto Regular font from file
@@ -273,7 +275,8 @@ class MeepMeep @JvmOverloads constructor(
      * @see [FieldUtil]
      * @see [LoopManager]
      */
-    private val render: () -> Unit = { // Get the graphics context from the canvas buffer strategy
+    private val render: () -> Unit = {
+        // Get the graphics context from the canvas buffer strategy
         val g = canvas.bufferStrat.drawGraphics as Graphics2D
 
         // Enable anti-aliasing for smoother visuals
@@ -338,24 +341,25 @@ class MeepMeep @JvmOverloads constructor(
      * @see [Entity]
      * @see [ZIndexManager]
      */
-    private val update: (deltaTime: Long) -> Unit =
-            { deltaTime -> // Check if the entity list needs to be updated
-                if (entityListDirty) { // Remove entities that are requested to be removed
-                    entityList.removeAll(requestedRemoveEntityList)
-                    requestedRemoveEntityList.clear()
+    private val update: (deltaTime: Long) -> Unit = { deltaTime ->
+        // Check if the entity list needs to be updated
+        if (entityListDirty) {
+            // Remove entities that are requested to be removed
+            entityList.removeAll(requestedRemoveEntityList)
+            requestedRemoveEntityList.clear()
 
-                    // Add entities that are requested to be added
-                    entityList.addAll(requestedAddEntityList)
-                    requestedAddEntityList.clear()
+            // Add entities that are requested to be added
+            entityList.addAll(requestedAddEntityList)
+            requestedAddEntityList.clear()
 
-                    // Sort the entity list by their z-index
-                    entityList.sortBy { it.zIndex }
-                    entityListDirty = false
-                }
+            // Sort the entity list by their z-index
+            entityList.sortBy { it.zIndex }
+            entityListDirty = false
+        }
 
-                // Update each entity in the entity list
-                entityList.forEach { it.update(deltaTime) }
-            }
+        // Update each entity in the entity list
+        entityList.forEach { it.update(deltaTime) }
+    }
 
     /**
      * Manages the application loop with the specified fps and update and
@@ -372,7 +376,8 @@ class MeepMeep @JvmOverloads constructor(
      *
      * @return The [MeepMeep] instance.
      */
-    fun start(): MeepMeep { // Set the default background if none is set
+    fun start(): MeepMeep {
+        // Set the default background if none is set
         if (bg == null) setBackground(Background.GRID_BLUE)
         windowFrame.isVisible = true
 
@@ -454,7 +459,8 @@ class MeepMeep @JvmOverloads constructor(
      * @param image The [Image] to be set as the background.
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun setBackground(image: Image): MeepMeep { // Scale the provided image to fit the window dimensions
+    fun setBackground(image: Image): MeepMeep {
+        // Scale the provided image to fit the window dimensions
         bg = image.getScaledInstance(windowX, windowY, Image.SCALE_SMOOTH)
 
         // Return the current instance for method chaining
@@ -473,7 +479,8 @@ class MeepMeep @JvmOverloads constructor(
      */
     fun setMouseCoordinateDisplayPosition(
         x: Int, y: Int
-    ) { // Update the x-coordinate for the mouse coordinate display
+    ) {
+        // Update the x-coordinate for the mouse coordinate display
         mouseCoordinateDisplayX = x
 
         // Update the y-coordinate for the mouse coordinate display
@@ -487,7 +494,8 @@ class MeepMeep @JvmOverloads constructor(
      *    shown.
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun setShowFPS(showFPS: Boolean): MeepMeep { // Update the showFPS property
+    fun setShowFPS(showFPS: Boolean): MeepMeep {
+        // Update the showFPS property
         this.showFPS = showFPS
 
         return this
@@ -510,7 +518,8 @@ class MeepMeep @JvmOverloads constructor(
     @JvmOverloads
     fun setTheme(
         schemeLight: ColorScheme, schemeDark: ColorScheme = schemeLight
-    ): MeepMeep { // Set the light and dark themes in the ColorManager
+    ): MeepMeep {
+        // Set the light and dark themes in the ColorManager
         colorManager.setTheme(schemeLight, schemeDark)
 
         // Refresh the theme for all entities and UI components
@@ -531,7 +540,8 @@ class MeepMeep @JvmOverloads constructor(
      * @see [ColorManager]
      * @see [ThemedEntity]
      */
-    private fun refreshTheme() { // Core Refresh: Update the theme for all entities that implement ThemedEntity
+    private fun refreshTheme() {
+        // Core Refresh: Update the theme for all entities that implement ThemedEntity
         entityList.forEach {
             if (it is ThemedEntity) it.switchScheme(colorManager.theme)
         }
@@ -553,7 +563,8 @@ class MeepMeep @JvmOverloads constructor(
      * @return The [MeepMeep] instance for method chaining.
      * @see [ColorManager]
      */
-    fun setDarkMode(isDarkMode: Boolean): MeepMeep { // Update the dark mode setting in the ColorManager
+    fun setDarkMode(isDarkMode: Boolean): MeepMeep {
+        // Update the dark mode setting in the ColorManager
         colorManager.isDarkMode = isDarkMode
 
         // Return the current instance for method chaining
@@ -572,7 +583,8 @@ class MeepMeep @JvmOverloads constructor(
      * @see FieldUtil
      * @see Entity.setCanvasDimensions
      */
-    private fun onCanvasResize() { // Set the canvas width and height in FieldUtil to the current window dimensions
+    private fun onCanvasResize() {
+        // Set the canvas width and height in FieldUtil to the current window dimensions
         FieldUtil.CANVAS_WIDTH = windowX.toDouble()
         FieldUtil.CANVAS_HEIGHT = windowY.toDouble()
 
@@ -592,8 +604,10 @@ class MeepMeep @JvmOverloads constructor(
      * @param interval The interval to set for the [AxesEntity].
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun setAxesInterval(interval: Int): MeepMeep { // Check if the default [AxesEntity] is in the [entityList]
-        if (DEFAULT_AXES_ENTITY in entityList) { // Set the interval for the default [AxesEntity]
+    fun setAxesInterval(interval: Int): MeepMeep {
+        // Check if the default [AxesEntity] is in the [entityList]
+        if (DEFAULT_AXES_ENTITY in entityList) {
+            // Set the interval for the default [AxesEntity]
             DEFAULT_AXES_ENTITY.setInterval(interval)
         }
 
@@ -614,7 +628,8 @@ class MeepMeep @JvmOverloads constructor(
      * @param entity The [Entity] to be added to the application.
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun addEntity(entity: Entity): MeepMeep { // Add the entity to the z-index manager
+    fun addEntity(entity: Entity): MeepMeep {
+        // Add the entity to the z-index manager
         zIndexManager.addEntity(entity)
 
         // Add the entity to the entity list and mark the list as dirty
@@ -649,7 +664,8 @@ class MeepMeep @JvmOverloads constructor(
      * @param entity The [Entity] to be removed from the application.
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun removeEntity(entity: Entity): MeepMeep { // Remove the entity from the entity list
+    fun removeEntity(entity: Entity): MeepMeep {
+        // Remove the entity from the entity list
         entityList.remove(entity)
 
         // Remove the entity from the requested add entity list
@@ -684,7 +700,8 @@ class MeepMeep @JvmOverloads constructor(
      * @param entity The [Entity] to be added to the application.
      * @return The [MeepMeep] instance for method chaining.
      */
-    fun requestToAddEntity(entity: Entity): MeepMeep { // Add the entity to the requested add entity list
+    fun requestToAddEntity(entity: Entity): MeepMeep {
+        // Add the entity to the requested add entity list
         requestedAddEntityList.add(entity)
 
         // Mark the entity list as dirty to indicate it needs to be sorted
@@ -707,7 +724,8 @@ class MeepMeep @JvmOverloads constructor(
      * @see [requestToAddEntity]
      * @see [removeEntity]
      */
-    fun requestToRemoveEntity(entity: Entity): MeepMeep { // Add the entity to the requested remove entity list
+    fun requestToRemoveEntity(entity: Entity): MeepMeep {
+        // Add the entity to the requested remove entity list
         requestedRemoveEntityList.add(entity)
 
         // Mark the entity list as dirty to indicate it needs to be sorted
@@ -729,7 +747,8 @@ class MeepMeep @JvmOverloads constructor(
      * @return The [MeepMeep] instance for method chaining.
      * @see [MeepMeep.setBackground]
      */
-    fun setBackgroundAlpha(alpha: Float): MeepMeep { // Set the alpha transparency level for the background image
+    fun setBackgroundAlpha(alpha: Float): MeepMeep {
+        // Set the alpha transparency level for the background image
         bgAlpha = alpha
 
         // Return the current instance for method chaining
