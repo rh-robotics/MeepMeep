@@ -88,11 +88,7 @@ open class DefaultBotBuilder(private val meepMeep: MeepMeep) {
      * @return The current instance of [DefaultBotBuilder] for chaining.
      */
     fun setConstraints(
-        maxVel: Double,
-        maxAccel: Double,
-        maxAngVel: Double,
-        maxAngAccel: Double,
-        trackWidth: Double
+        maxVel: Double, maxAccel: Double, maxAngVel: Double, maxAngAccel: Double, trackWidth: Double
     ): DefaultBotBuilder {
         constraints = Constraints(maxVel, maxAccel, maxAngVel, maxAngAccel, trackWidth)
 
@@ -134,9 +130,13 @@ open class DefaultBotBuilder(private val meepMeep: MeepMeep) {
         return RoadRunnerBotEntity(
             meepMeep,
             constraints,
-            width, height,
-            startPose, colorScheme ?: meepMeep.colorManager.theme, opacity,
-            driveTrainType, false
+            width,
+            height,
+            startPose,
+            colorScheme ?: meepMeep.colorManager.theme,
+            opacity,
+            driveTrainType,
+            false
         )
     }
 

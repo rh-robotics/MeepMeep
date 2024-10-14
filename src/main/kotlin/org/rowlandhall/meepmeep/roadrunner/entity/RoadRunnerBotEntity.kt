@@ -34,7 +34,8 @@ import kotlin.math.min
 class RoadRunnerBotEntity(
     meepMeep: MeepMeep,
     private var constraints: Constraints,
-    width: Double, height: Double,
+    width: Double,
+    height: Double,
     pose: Pose2d,
     val colorScheme: ColorScheme,
     opacity: Double,
