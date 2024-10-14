@@ -1,5 +1,7 @@
 package org.rowlandhall.meepmeep.core.ui
 
+import java.awt.event.ComponentAdapter
+import java.awt.event.ComponentEvent
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import javax.swing.BoxLayout
@@ -17,6 +19,7 @@ import kotlin.system.exitProcess
 class WindowFrame(title: String, windowX: Int, windowY: Int): JFrame() {
     private var internalWidth = windowX
     private var internalHeight = windowY
+    private val aspectRatio = internalWidth / internalHeight
 
     // Main canvas for rendering
     val canvas = MainCanvas(internalWidth, internalHeight)
@@ -68,5 +71,17 @@ class WindowFrame(title: String, windowX: Int, windowY: Int): JFrame() {
 
         // Start the canvas
         canvas.start()
+
+        // Make the window resize at a fixed aspect ratio
+        addComponentListener(object: ComponentAdapter() {
+            override fun componentResized(e: ComponentEvent?) {
+                super.componentResized(e)
+
+                val newWidth = width
+                val newHeight = (newWidth / aspectRatio).toInt()
+
+                setSize(newWidth, newHeight)
+            }
+        })
     }
 }
