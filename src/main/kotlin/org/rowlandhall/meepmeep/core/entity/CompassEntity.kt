@@ -154,6 +154,18 @@ class CompassEntity(
     }
 
     /**
+     * Switches the image used by the compass entity. This function is to be
+     * used through [MeepMeep.setCompassImage], not directly.
+     *
+     * @param image The new image.
+     */
+    fun setCompassImage(image: BufferedImage, isDark: Boolean) {
+        bgDark = image
+        bgLight = image
+        redraw()
+    }
+
+    /**
      * Handles mouse moved events to animate the compass opacity.
      *
      * @param me The mouse event.
