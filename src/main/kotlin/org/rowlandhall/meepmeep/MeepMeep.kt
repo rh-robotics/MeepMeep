@@ -26,6 +26,7 @@ import java.awt.event.KeyListener
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
+import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import javax.swing.UIManager
 
@@ -468,6 +469,52 @@ class MeepMeep @JvmOverloads constructor(
     }
 
     /**
+     * Sets the compass image for the MeepMeep application.
+     *
+     * @param compassImage The [CompassImage] enum representing the wanted compass image.
+     * @return The [MeepMeep] instance for method chaining.
+     */
+    fun setCompassImage(compassImage: CompassImage): MeepMeep {
+        val classLoader = Thread.currentThread().contextClassLoader
+
+        val compassImageMap = CompassImage.values().associateWith { img ->
+            val path = when (img) {
+                CompassImage.SIMPLE -> if (colorManager.isDarkMode) "misc/simple-compass-white.png" else "misc/simple-compass-black.png"
+                CompassImage.SIMPLE_BLACK -> "misc/simple-compass-black.png"
+                CompassImage.SIMPLE_WHITE -> "misc/simple-compass-white.png"
+                CompassImage.COMPASS_ROSE -> if (colorManager.isDarkMode) "misc/compass-rose-white-text.png" else "misc/compass-rose-black-text.png"
+                CompassImage.COMPASS_ROSE_WHITE -> "misc/compass-rose-white-text.png"
+                CompassImage.COMPASS_ROSE_BLACK -> "misc/compass-rose-black-text.png"
+            }
+
+            path
+        }
+
+        // Get the path and dark mode boolean from the compass image map
+        val path = compassImageMap[compassImage]!!
+        val newImage = ImageIO.read(classLoader.getResourceAsStream(path))
+        DEFAULT_COMPASS_ENTITY.setCompassImage(newImage, colorManager.isDarkMode)
+
+        return this
+    }
+
+    /**
+     * Sets the compass image for the MeepMeep application.
+     *
+     * This method scales the provided [Image] and sets it as the compass image, allowing for custom compass images.
+     *
+     * @param image The [Image] to be set as the compass image.
+     * @return The [MeepMeep] instance for method chaining.
+     */
+    fun setCompassImage(image: Image): MeepMeep {
+        // Read the image into a buffered image
+        val bufferedImage = image as BufferedImage
+        DEFAULT_COMPASS_ENTITY.setCompassImage(bufferedImage, colorManager.isDarkMode)
+
+        return this
+    }
+
+    /**
      * Sets the display position for the mouse coordinates on the canvas.
      *
      * This method updates the x and y coordinates where the mouse coordinates
@@ -790,5 +837,41 @@ class MeepMeep @JvmOverloads constructor(
         FIELD_INTOTHEDEEP_JUICE_LIGHT,
         FIELD_INTOTHEDEEP_JUICE_GREYSCALE,
         FIELD_INTOTHEDEEP_JUICE_BLACK
+    }
+
+    /**
+     * Enum class representing various compass image options for the MeepMeep
+     * application.
+     *
+     * Each enum constant corresponds to a specific compass image that can be
+     * set using the [MeepMeep.setCompassImage] method.
+     *
+     * @see [MeepMeep.setCompassImage]
+     * @see [MeepMeep.setCompassImage]
+     */
+    enum class CompassImage {
+        /**
+         * Simple Compass type, automatically selects black or white text based on
+         * color scheme ([ColorManager.isDarkMode]).
+         */
+        SIMPLE,
+
+        /** Simple Compass type with black text. */
+        SIMPLE_BLACK,
+
+        /** Simple Compass type with white text. */
+        SIMPLE_WHITE,
+
+        /**
+         * Compass Rose type, automatically selects white or black text based on
+         * color scheme ([ColorManager.isDarkMode]).
+         */
+        COMPASS_ROSE,
+
+        /** Compass Rose type with white text. */
+        COMPASS_ROSE_WHITE,
+
+        /** Compass Rose type with black text. */
+        COMPASS_ROSE_BLACK
     }
 }
