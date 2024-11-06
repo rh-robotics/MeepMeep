@@ -23,6 +23,7 @@ import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.Wa
 import org.rowlandhall.meepmeep.roadrunner.ui.TrajectoryProgressSliderMaster
 import java.awt.AlphaComposite
 import java.awt.BasicStroke
+import java.awt.Color
 import java.awt.Font
 import java.awt.Graphics2D
 import java.awt.Image
@@ -759,6 +760,7 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
         val arrowHeadLength = 1.5
         val arrowLinesAngle = 45.0.toRadians()
         val endTrimDistance = 2.5
+        val startCircleRadius = 7.0
 
         entityList.forEach { entity ->
             if (entity is RoadRunnerBotEntity) {
@@ -810,12 +812,39 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
                                 g.color = entity.colorScheme.botBodyColor
                                 g.draw(path)
 
+                                // Draw starting point circle
+                                if (i == 0) {
+                                    val startPoint =
+                                            (trajectory.start().vec() + shiftVector).toScreenCoord()
+
+                                    val originalStroke = g.stroke
+                                    val originalColor = g.color
+                                    g.stroke = BasicStroke(
+                                        3.0f,
+                                        BasicStroke.CAP_ROUND,
+                                        BasicStroke.JOIN_ROUND
+                                    )
+                                    g.color = Color(34,139,34)
+
+                                    g.drawOval(
+                                        (startPoint.x - startCircleRadius).toInt(),
+                                        (startPoint.y - startCircleRadius).toInt(),
+                                        (startCircleRadius * 2).toInt(),
+                                        (startCircleRadius * 2).toInt()
+                                    )
+
+                                    g.stroke = originalStroke
+                                    g.color = originalColor
+                                }
+
+
+
                                 // Calculate & draw arrow endpoints
                                 lastDrawnPoint?.let { lastPoint ->
                                     val secondToLastPoint = trajectory.path[pathLength - endTrimDistance - 0.1].vec() + shiftVector
                                     val directionVector = lastPoint - secondToLastPoint
                                     val pathHeading = atan2(directionVector.y, directionVector.x)
-                                    
+
                                     // Calculate arrow endpoints
                                     val screenArrowEndVec1 = (lastPoint + Vector2d(
                                         arrowHeadLength,
