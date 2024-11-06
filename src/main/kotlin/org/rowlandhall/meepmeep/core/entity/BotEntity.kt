@@ -46,7 +46,6 @@ open class BotEntity(
     override val meepMeep: MeepMeep,
     private var width: Double,
     private var height: Double,
-
     var pose: Pose2d,
     private var colorScheme: ColorScheme,
     private val opacity: Double

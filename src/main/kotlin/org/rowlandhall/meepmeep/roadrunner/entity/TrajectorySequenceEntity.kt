@@ -1,15 +1,6 @@
 package org.rowlandhall.meepmeep.roadrunner.entity
 
 import com.acmerobotics.roadrunner.geometry.Pose2d
-import org.rowlandhall.meepmeep.MeepMeep
-import org.rowlandhall.meepmeep.core.colorscheme.ColorScheme
-import org.rowlandhall.meepmeep.core.entity.ThemedEntity
-import org.rowlandhall.meepmeep.core.toScreenCoord
-import org.rowlandhall.meepmeep.core.util.FieldUtil
-import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.TrajectorySequence
-import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.TrajectorySegment
-import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.TurnSegment
-import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.WaitSegment
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
@@ -19,12 +10,21 @@ import java.awt.Transparency
 import java.awt.geom.Path2D
 import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
+import org.rowlandhall.meepmeep.MeepMeep
+import org.rowlandhall.meepmeep.core.colorscheme.ColorScheme
+import org.rowlandhall.meepmeep.core.entity.ThemedEntity
+import org.rowlandhall.meepmeep.core.toScreenCoord
+import org.rowlandhall.meepmeep.core.util.FieldUtil
+import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.TrajectorySequence
+import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.TrajectorySegment
+import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.TurnSegment
+import org.rowlandhall.meepmeep.roadrunner.trajectorysequence.sequencesegment.WaitSegment
 
 class TrajectorySequenceEntity(
-    override val meepMeep: MeepMeep,
-    private val trajectorySequence: TrajectorySequence,
-    private var colorScheme: ColorScheme,
-): ThemedEntity {
+        override val meepMeep: MeepMeep,
+        val trajectorySequence: TrajectorySequence,
+        private var colorScheme: ColorScheme,
+) : ThemedEntity {
     /** Tag for the trajectory sequence entity. */
     override val tag = "TRAJECTORY_SEQUENCE_ENTITY"
 
@@ -84,15 +84,11 @@ class TrajectorySequenceEntity(
     /** Redraws the entire trajectory path. */
     private fun redrawPath() {
         // Clear previous turn indicator entities
-        turnEntityList.forEach {
-            meepMeep.requestToRemoveEntity(it)
-        }
+        turnEntityList.forEach { meepMeep.requestToRemoveEntity(it) }
         turnEntityList.clear()
 
         // Clear previous marker indicator entities
-        markerEntityList.forEach {
-            meepMeep.requestToRemoveEntity(it)
-        }
+        markerEntityList.forEach { meepMeep.requestToRemoveEntity(it) }
         markerEntityList.clear()
 
         // Get the default screen device and configuration
@@ -103,9 +99,9 @@ class TrajectorySequenceEntity(
         // Create a compatible image for the trajectory sequence
         baseBufferedImage =
                 config.createCompatibleImage(
-                    canvasWidth.toInt(),
-                    canvasHeight.toInt(),
-                    Transparency.TRANSLUCENT,
+                        canvasWidth.toInt(),
+                        canvasHeight.toInt(),
+                        Transparency.TRANSLUCENT,
                 )
         val gfx = baseBufferedImage.createGraphics()
 
@@ -119,9 +115,9 @@ class TrajectorySequenceEntity(
         // Create strokes for the inner path
         val innerStroke =
                 BasicStroke(
-                    FieldUtil.scaleInchesToPixel(PATH_INNER_STROKE_WIDTH).toFloat(),
-                    BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_ROUND,
+                        FieldUtil.scaleInchesToPixel(PATH_INNER_STROKE_WIDTH).toFloat(),
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_ROUND,
                 )
 
         var currentEndPose = trajectorySequence.start()
@@ -135,7 +131,8 @@ class TrajectorySequenceEntity(
                     // Get the trajectory from the segment
                     val trajectory = step.trajectory
 
-                    // Calculate the number of samples based on the trajectory length and sample resolution
+                    // Calculate the number of samples based on the trajectory length and sample
+                    // resolution
                     val displacementSamples =
                             (trajectory.path.length() / SAMPLE_RESOLUTION).roundToInt()
 
@@ -157,23 +154,21 @@ class TrajectorySequenceEntity(
                     // Update the current end pose to the end of the trajectory
                     currentEndPose = step.trajectory.end()
                 }
-
                 is TurnSegment -> {
                     // Create a turn indicator entity for the turn segment
                     val turnEntity =
                             TurnIndicatorEntity(
-                                meepMeep,
-                                colorScheme,
-                                currentEndPose.vec(),
-                                currentEndPose.heading,
-                                currentEndPose.heading + step.totalRotation,
+                                    meepMeep,
+                                    colorScheme,
+                                    currentEndPose.vec(),
+                                    currentEndPose.heading,
+                                    currentEndPose.heading + step.totalRotation,
                             )
 
                     // Add the turn entity to the list and request to add it to MeepMeep
                     turnEntityList.add(turnEntity)
                     meepMeep.requestToAddEntity(turnEntity)
                 }
-
                 is WaitSegment -> {
                     // No action needed for WaitSegment
                 }
@@ -192,18 +187,21 @@ class TrajectorySequenceEntity(
                     val pose =
                             when (segment) {
                                 is WaitSegment -> segment.startPose
-                                is TurnSegment -> segment.startPose.copy(heading = segment.motionProfile[marker.time].x)
+                                is TurnSegment ->
+                                        segment.startPose.copy(
+                                                heading = segment.motionProfile[marker.time].x
+                                        )
                                 else -> Pose2d()
                             }
 
                     // Create a new marker entity with the determined pose and add it to the list
                     val markerEntity =
                             MarkerIndicatorEntity(
-                                meepMeep,
-                                colorScheme,
-                                pose,
-                                marker.callback,
-                                currentTime + marker.time,
+                                    meepMeep,
+                                    colorScheme,
+                                    pose,
+                                    marker.callback,
+                                    currentTime + marker.time,
                             )
                     markerEntityList.add(markerEntity)
                     meepMeep.requestToAddEntity(markerEntity)
@@ -217,11 +215,11 @@ class TrajectorySequenceEntity(
                     // Create a new marker entity with the determined pose and add it to the list
                     val markerEntity =
                             MarkerIndicatorEntity(
-                                meepMeep,
-                                colorScheme,
-                                pose,
-                                marker.callback,
-                                currentTime + marker.time,
+                                    meepMeep,
+                                    colorScheme,
+                                    pose,
+                                    marker.callback,
+                                    currentTime + marker.time,
                             )
                     markerEntityList.add(markerEntity)
                     meepMeep.requestToAddEntity(markerEntity)
@@ -236,10 +234,10 @@ class TrajectorySequenceEntity(
         gfx.color = colorScheme.trajectoryPathColor
         gfx.color =
                 Color(
-                    colorScheme.trajectoryPathColor.red,
-                    colorScheme.trajectoryPathColor.green,
-                    colorScheme.trajectoryPathColor.blue,
-                    (PATH_UNFOCUSED_OPACITY * 255).toInt(),
+                        colorScheme.trajectoryPathColor.red,
+                        colorScheme.trajectoryPathColor.green,
+                        colorScheme.trajectoryPathColor.blue,
+                        (PATH_UNFOCUSED_OPACITY * 255).toInt(),
                 )
         gfx.draw(trajectoryDrawnPath)
     }
@@ -260,9 +258,9 @@ class TrajectorySequenceEntity(
         // Create a compatible image for the current segment
         currentSegmentImage =
                 config.createCompatibleImage(
-                    canvasWidth.toInt(),
-                    canvasHeight.toInt(),
-                    Transparency.TRANSLUCENT,
+                        canvasWidth.toInt(),
+                        canvasHeight.toInt(),
+                        Transparency.TRANSLUCENT,
                 )
         val gfx = currentSegmentImage!!.createGraphics()
 
@@ -276,15 +274,15 @@ class TrajectorySequenceEntity(
         // Create stroke for the outer and inner paths
         val outerStroke =
                 BasicStroke(
-                    FieldUtil.scaleInchesToPixel(PATH_OUTER_STROKE_WIDTH).toFloat(),
-                    BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_ROUND,
+                        FieldUtil.scaleInchesToPixel(PATH_OUTER_STROKE_WIDTH).toFloat(),
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_ROUND,
                 )
         val innerStroke =
                 BasicStroke(
-                    FieldUtil.scaleInchesToPixel(PATH_INNER_STROKE_WIDTH).toFloat(),
-                    BasicStroke.CAP_BUTT,
-                    BasicStroke.JOIN_ROUND,
+                        FieldUtil.scaleInchesToPixel(PATH_INNER_STROKE_WIDTH).toFloat(),
+                        BasicStroke.CAP_BUTT,
+                        BasicStroke.JOIN_ROUND,
                 )
 
         // Get the trajectory from the current segment
@@ -316,10 +314,10 @@ class TrajectorySequenceEntity(
         gfx.stroke = outerStroke
         gfx.color =
                 Color(
-                    colorScheme.trajectoryPathColor.red,
-                    colorScheme.trajectoryPathColor.green,
-                    colorScheme.trajectoryPathColor.blue,
-                    (PATH_OUTER_OPACITY * 255).toInt(),
+                        colorScheme.trajectoryPathColor.red,
+                        colorScheme.trajectoryPathColor.green,
+                        colorScheme.trajectoryPathColor.blue,
+                        (PATH_OUTER_OPACITY * 255).toInt(),
                 )
         gfx.draw(trajectoryDrawnPath)
 
@@ -330,8 +328,7 @@ class TrajectorySequenceEntity(
     }
 
     /**
-     * Updates the current segment of the trajectory sequence based on the
-     * progress.
+     * Updates the current segment of the trajectory sequence based on the progress.
      *
      * @param deltaTime The time elapsed since the last update.
      */
@@ -345,7 +342,8 @@ class TrajectorySequenceEntity(
                 val seg = trajectorySequence.get(i)
 
                 if (currentTime + seg.duration > trajectoryProgress!!) {
-                    // If the current time plus the segment duration exceeds the trajectory progress,
+                    // If the current time plus the segment duration exceeds the trajectory
+                    // progress,
                     // set the current segment to this segment
                     if (seg is TrajectorySegment) currentSegment = seg
 
@@ -374,9 +372,9 @@ class TrajectorySequenceEntity(
      * @param canvasHeight The height of the canvas.
      */
     override fun render(
-        gfx: Graphics2D,
-        canvasWidth: Int,
-        canvasHeight: Int,
+            gfx: Graphics2D,
+            canvasWidth: Int,
+            canvasHeight: Int,
     ) {
         // Draw the base buffered image
         gfx.drawImage(baseBufferedImage, null, 0, 0)
@@ -386,15 +384,14 @@ class TrajectorySequenceEntity(
     }
 
     /**
-     * Sets the dimensions of the canvas and redraws the path if the dimensions
-     * have changed.
+     * Sets the dimensions of the canvas and redraws the path if the dimensions have changed.
      *
      * @param canvasWidth The new width of the canvas.
      * @param canvasHeight The new height of the canvas.
      */
     override fun setCanvasDimensions(
-        canvasWidth: Double,
-        canvasHeight: Double,
+            canvasWidth: Double,
+            canvasHeight: Double,
     ) {
         // Check if the canvas dimensions have changed
         if (this.canvasWidth != canvasWidth || this.canvasHeight != canvasHeight) {
