@@ -2,112 +2,93 @@ package org.rowlandhall.meepmeep.core.util
 
 import com.acmerobotics.roadrunner.geometry.Vector2d
 
-import kotlin.math.max
 import kotlin.math.min
 
-/** Utility class for field-related calculations and conversions. */
+/**
+ * Utility class for field-related coordinate conversions and scaling calculations.
+ * Assumes screen coordinates have origin (0,0) at top-left with Y increasing downward,
+ * and field coordinates have origin (0,0) at center with Y increasing upward.
+ */
 class FieldUtil {
     companion object {
-        /** The width of the field. */
-        @JvmStatic
-        var FIELD_WIDTH = 141
+        /** Field dimensions in inches (width = X-axis, height = Y-axis) */
+        const val DEFAULT_FIELD_WIDTH = 141.0
+        const val DEFAULT_FIELD_HEIGHT = 143.0
 
-        /** The height of the field. */
-        @JvmStatic
-        var FIELD_HEIGHT = 143
+        // Mutable field dimensions for potential customization
+        @JvmStatic var fieldWidth = DEFAULT_FIELD_WIDTH
+        @JvmStatic var fieldHeight = DEFAULT_FIELD_HEIGHT
 
-        /** The width of the canvas in pixels. */
-        @JvmStatic
-        var CANVAS_WIDTH = 0.0
+        // Canvas dimensions should be set before using conversion methods
+        @JvmStatic var canvasWidth = 0.0
+            private set
+        @JvmStatic var canvasHeight = 0.0
+            private set
 
-        /** The height of the canvas in pixels. */
+        /** Initialize canvas dimensions with validation */
         @JvmStatic
-        var CANVAS_HEIGHT = 0.0
+        fun setCanvasDimensions(width: Double, height: Double) {
+            require(width > 0 && height > 0) { "Canvas dimensions must be positive" }
+            canvasWidth = width
+            canvasHeight = height
+        }
 
         /**
          * Converts screen coordinates to field coordinates.
-         *
-         * @param vector2d The screen coordinates as a Vector2d object.
-         * @param canvasWidth The width of the canvas.
-         * @param canvasHeight The height of the canvas.
-         * @return The field coordinates as a Vector2d object.
+         * @param screenPoint Screen coordinates (origin at top-left)
+         * @return Field coordinates (origin at center, Y-up)
          */
         @JvmStatic
-        @JvmOverloads
-        fun screenCoordsToFieldCoords(
-            vector2d: Vector2d,
-            canvasWidth: Double = CANVAS_WIDTH,
-            canvasHeight: Double = CANVAS_HEIGHT
-        ): Vector2d {
-            // Mirror the Y coordinate and scale to field dimensions
-            return mirrorY(vector2d) / max(
-                canvasWidth,
-                canvasHeight
-            ) * FIELD_WIDTH.toDouble() + Vector2d(-FIELD_WIDTH / 2.0, FIELD_HEIGHT / 2.0)
-        }
-
-        /**
-         * Converts field coordinates to screen coordinates.
-         *
-         * @param vector2d The field coordinates as a Vector2d object.
-         * @param canvasWidth The width of the canvas.
-         * @param canvasHeight The height of the canvas.
-         * @return The screen coordinates as a Vector2d object.
-         */
-        @JvmStatic
-        @JvmOverloads
-        fun fieldCoordsToScreenCoords(
-            vector2d: Vector2d,
-            canvasWidth: Double = CANVAS_WIDTH,
-            canvasHeight: Double = CANVAS_HEIGHT
-        ): Vector2d {
-            // Mirror the Y coordinate and scale to screen dimensions
-            return (mirrorY(vector2d) + Vector2d(FIELD_WIDTH / 2.0, FIELD_HEIGHT / 2.0)) * min(
-                canvasWidth,
-                canvasHeight
-            ) / FIELD_WIDTH.toDouble()
-        }
-
-        /**
-         * Scales inches to pixels based on canvas dimensions.
-         *
-         * @param inches The measurement in inches.
-         * @param canvasWidth The width of the canvas.
-         * @param canvasHeight The height of the canvas.
-         * @return The measurement in pixels.
-         */
-        @JvmStatic
-        fun scaleInchesToPixel(
-            inches: Double,
-            canvasWidth: Double = CANVAS_WIDTH,
-            canvasHeight: Double = CANVAS_HEIGHT
-        ): Double {
-            // Scale inches to pixels based on the smaller dimension of the canvas
-            return inches / min(FIELD_WIDTH.toDouble(), FIELD_HEIGHT.toDouble()) * min(
-                canvasWidth,
-                canvasHeight
+        fun screenToField(screenPoint: Vector2d): Vector2d {
+            validateCanvasDimensions()
+            
+            val normalizedX = screenPoint.x / canvasWidth
+            val normalizedY = (canvasHeight - screenPoint.y) / canvasHeight
+            
+            return Vector2d(
+                normalizedX * fieldWidth - fieldWidth / 2,
+                normalizedY * fieldHeight - fieldHeight / 2
             )
         }
 
         /**
-         * Mirrors the X coordinate of a vector.
-         *
-         * @param vector The vector to mirror.
-         * @return The mirrored vector.
+         * Converts field coordinates to screen coordinates.
+         * @param fieldPoint Field coordinates (origin at center, Y-up)
+         * @return Screen coordinates (origin at top-left)
          */
-        private fun mirrorX(vector: Vector2d): Vector2d {
-            return Vector2d(-vector.x, vector.y)
+        @JvmStatic
+        fun fieldToScreen(fieldPoint: Vector2d): Vector2d {
+            validateCanvasDimensions()
+            
+            val normalizedX = (fieldPoint.x + fieldWidth / 2) / fieldWidth
+            val normalizedY = (fieldPoint.y + fieldHeight / 2) / fieldHeight
+            
+            return Vector2d(
+                normalizedX * canvasWidth,
+                canvasHeight - (normalizedY * canvasHeight)
+            )
         }
 
-
         /**
-         * Mirrors the Y coordinate of a vector.
-         *
-         * @param vector The vector to mirror.
-         * @return The mirrored vector.
+         * Scales inches to pixels using current field-to-screen ratio.
+         * Maintains aspect ratio using the same scale factor for both axes.
+         * @return Pixel equivalent for the given inch measurement
          */
-        private fun mirrorY(vector: Vector2d): Vector2d {
-            return Vector2d(vector.x, -vector.y)
+        @JvmStatic
+        fun inchesToPixels(inches: Double): Double {
+            validateCanvasDimensions()
+            
+            val widthScale = canvasWidth / fieldWidth
+            val heightScale = canvasHeight / fieldHeight
+            val uniformScale = min(widthScale, heightScale)
+            
+            return inches * uniformScale
+        }
+
+        private fun validateCanvasDimensions() {
+            require(canvasWidth > 0 && canvasHeight > 0) {
+                "Canvas dimensions must be set using setCanvasDimensions() before conversions"
+            }
         }
     }
 }
