@@ -507,13 +507,13 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
                                     "background/season-2024-intothedeep/field-2024-juice-black.png"
 
                                 Background.FIELD_DECODE_JUICE_DARK ->
-                                    "background/season-2025-decode/field-2024-juice-dark.png"
+                                    "background/season-2025-decode/field-2025-juice-dark.png"
 
                                 Background.FIELD_DECODE_JUICE_LIGHT ->
-                                    "background/season-2025-decode/field-2024-juice-light.png"
+                                    "background/season-2025-decode/field-2025-juice-light.png"
 
                                 Background.FIELD_DECODE_OFFICIAL ->
-                                    "background/season-2025-decode/field-2024-official.png"
+                                    "background/season-2025-decode/field-2025-official.png"
                             }
 
                     val isDarkMode = path.contains("dark", ignoreCase = true)
