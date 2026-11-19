@@ -520,12 +520,6 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
                                 
                                 Background.FIELD_BIOBUZZ_LIGHT ->
                                     "background/season-2026-biobuzz/field-2026-light.png"
-                                 
-                                Background.FIELD_BIOBUZZ_DARK ->
-                                    "background/season-2026-biobuzz/field-2026-dark.png"
-                                
-                                Background.FIELD_BIOBUZZ_LIGHT ->
-                                    "background/season-2026-biobuzz/field-2026-light.png"
                             }
 
                     val isDarkMode = path.contains("dark", ignoreCase = true)
