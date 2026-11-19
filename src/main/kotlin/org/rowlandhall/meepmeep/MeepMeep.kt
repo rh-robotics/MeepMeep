@@ -514,6 +514,18 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
 
                                 Background.FIELD_DECODE_OFFICIAL ->
                                     "background/season-2025-decode/field-2024-official.png"
+                                 
+                                Background.FIELD_BIOBUZZ_DARK ->
+                                    "background/season-2026-biobuzz/field-2026-dark.png"
+                                
+                                Background.FIELD_BIOBUZZ_LIGHT ->
+                                    "background/season-2026-biobuzz/field-2026-light.png"
+                                 
+                                Background.FIELD_BIOBUZZ_DARK ->
+                                    "background/season-2026-biobuzz/field-2026-dark.png"
+                                
+                                Background.FIELD_BIOBUZZ_LIGHT ->
+                                    "background/season-2026-biobuzz/field-2026-light.png"
                             }
 
                     val isDarkMode = path.contains("dark", ignoreCase = true)
@@ -1229,7 +1241,9 @@ constructor(private val windowX: Int, private val windowY: Int, private val fps:
         FIELD_INTOTHEDEEP_JUICE_BLACK,
         FIELD_DECODE_JUICE_DARK,
         FIELD_DECODE_JUICE_LIGHT,
-        FIELD_DECODE_OFFICIAL
+        FIELD_DECODE_OFFICIAL,
+        FIELD_BIOBUZZ_DARK,
+        FIELD_BIOBUZZ_LIGHT
     }
 
     /**
